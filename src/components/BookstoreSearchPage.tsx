@@ -5,7 +5,11 @@ import { Input } from "@/components/ui/input";
 import Map from "@/components/Map";
 
 // Store data
-const BOOKSTORES = [
+const BOOKSTORES: Array<{
+  address: string;
+  label: string;
+  coords: [number, number];
+}> = [
   {
     address: "81375 Haderner Stern",
     label: "Haderner Stern",
