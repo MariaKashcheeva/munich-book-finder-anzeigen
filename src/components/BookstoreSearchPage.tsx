@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
-import Map from "./Map";
 import { Input } from "@/components/ui/input";
 
 type Bookstore = {
@@ -29,10 +28,12 @@ const BOOKSTORES: Bookstore[] = [
   },
 ];
 
+const STATIC_MUNICH_MAP =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/M%C3%BCnchen_-_Karte_-_OpenStreetMap.png/640px-M%C3%BCnchen_-_Karte_-_OpenStreetMap.png";
+
 // eBay Kleinanzeigen style colors: green, white, soft grey/blue
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("80331 Munich, Marienplatz");
-  const [mapboxToken, setMapboxToken] = useState(""); // Temp: let user set token
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen pb-16 bg-gradient-to-b from-white to-gray-50">
@@ -49,45 +50,20 @@ const BookstoreSearchPage: React.FC = () => {
               aria-label="Search address"
             />
           </div>
-          {/* Mapbox token field for demo only */}
-          <div className="flex-1 flex items-center px-4 py-3 border-t border-gray-100 md:border-l md:border-t-0 bg-gray-50 rounded-b-lg md:rounded-br-lg md:rounded-tr-none">
-            <span className="text-xs text-gray-400 mr-2 whitespace-nowrap">Mapbox public token:</span>
-            <input
-              type="password"
-              value={mapboxToken}
-              onChange={e => setMapboxToken(e.target.value)}
-              placeholder="Paste token here"
-              className="text-xs w-full bg-gray-50 border-none focus:ring-0 p-0"
-              />
-          </div>
-        </div>
-        <div className="flex mt-2 ml-1">
-          <span className="text-xs text-gray-400">
-            To see the map, get a&nbsp;
-            <a
-              href="https://mapbox.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-green-700 hover:text-green-900"
-            >free Mapbox public token</a>{" "}
-            and paste above.
-          </span>
         </div>
       </section>
 
-      {/* Map Area */}
-      <section className="w-full max-w-5xl h-[390px] md:h-[470px] relative mt-8 px-2 mb-2">
-        {mapboxToken ? (
-          <Map
-            token={mapboxToken}
-            bookstores={BOOKSTORES}
-            center={MUNICH_CENTER}
-          />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full rounded-lg bg-gray-100 border border-gray-200 text-gray-400 text-sm">
-            Enter your Mapbox public token above to load the interactive Munich map.
-          </div>
-        )}
+      {/* Static Map Area */}
+      <section className="w-full max-w-5xl h-[390px] md:h-[470px] relative mt-8 px-2 mb-2 flex items-center justify-center">
+        <div className="relative w-full h-full">
+          <img
+            src={STATIC_MUNICH_MAP}
+            alt="Munich map"
+            className="object-cover w-full h-full rounded-lg border border-gray-200 shadow"
+            draggable={false}
+            />
+          {/* Optionally, could add pins as absolute-positioned elements here */}
+        </div>
       </section>
 
       {/* Results List */}
@@ -117,3 +93,4 @@ const BookstoreSearchPage: React.FC = () => {
 };
 
 export default BookstoreSearchPage;
+
