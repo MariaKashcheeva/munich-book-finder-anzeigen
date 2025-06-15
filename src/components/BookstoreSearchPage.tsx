@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-// Update here: reference for black & white Munich map image
-const MUNICH_BW_MAP = "/lovable-uploads/munich-bw-map.png";
+// Use the uploaded Munich map image (user provided)
+const MUNICH_BW_MAP = "/lovable-uploads/3ad12b43-3c80-4e42-88a4-22920ae4a6b7.png";
 
 // Store data
 const BOOKSTORES: Array<{
@@ -56,8 +56,6 @@ const MUNICH_CENTER: [number, number] = [11.5755, 48.1371];
 
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("81375");
-  // Remove mapboxToken logic as not needed
-  // const [mapboxToken, setMapboxToken] = useState("");
 
   // Determine highlight index and not-found state
   let highlightIndex: number | null = null;
@@ -84,11 +82,25 @@ const BookstoreSearchPage: React.FC = () => {
         className="fixed inset-0 -z-10 bg-cover bg-center filter grayscale"
         aria-hidden
         style={{
+          // Crop a bit from the bottom to hide the "alamy" black line
           backgroundImage: `url(${MUNICH_BW_MAP})`,
+          backgroundSize: "cover",
+          backgroundPosition: "top center",
+          height: "100vh",
+          width: "100vw",
           opacity: 0.35,
           pointerEvents: "none",
+          // Over-crop bottom: use an overlay below to mask if needed
+          // Remove black line using a white gradient overlay below.
         }}
       >
+        {/* Gradient overlay at the bottom to hide black line */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(255,255,255,0) 92%, #fff 99%, #fff 100%)",
+          }}
+        />
         {/* Optional overlay for better contrast */}
         <div className="absolute inset-0 bg-white/70" />
       </div>
