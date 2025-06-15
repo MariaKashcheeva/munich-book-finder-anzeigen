@@ -1,7 +1,9 @@
+
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+// Store data
 const BOOKSTORES = [
   {
     address: "81375 Haderner Stern",
@@ -20,8 +22,15 @@ const BOOKSTORES = [
   },
 ];
 
+const HADERNER_STERN_BOOKS = [
+  {
+    name: "Hänsel und Gretel - Brüder Grimm",
+    image: "/lovable-uploads/f5afcfe5-0f49-471a-808a-bd96e2adf312.png",
+  },
+];
+
 const BookstoreSearchPage: React.FC = () => {
-  const [search, setSearch] = useState("81375"); // Changed default value to "81375"
+  const [search, setSearch] = useState("81375");
 
   // Determine highlight index and not-found state
   let highlightIndex: number | null = null;
@@ -34,6 +43,12 @@ const BookstoreSearchPage: React.FC = () => {
     !search.includes("81375") &&
     !search.includes("80331") &&
     !search.includes("81675");
+
+  // Determine which books to show for a highlighted location (only Haderner Stern for now)
+  let books: Array<{ name: string; image: string }> = [];
+  if (highlightIndex === 0) {
+    books = HADERNER_STERN_BOOKS;
+  }
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen pb-16 bg-gradient-to-b from-white to-gray-50">
@@ -82,8 +97,30 @@ const BookstoreSearchPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Book List Section: Only show if a store is highlighted */}
+      {highlightIndex !== null && !isNotFound && books.length > 0 && (
+        <section className="w-full max-w-3xl mt-10 px-2">
+          <div className="rounded-lg shadow border border-gray-200 bg-white p-6">
+            <h2 className="text-xl font-semibold mb-4">Books available at {BOOKSTORES[highlightIndex].label}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {books.map((book, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-3 border rounded-lg bg-green-50 p-4 shadow-sm">
+                  <img
+                    src={book.image}
+                    alt={book.name}
+                    className="w-28 h-32 object-contain rounded"
+                  />
+                  <div className="text-center font-medium">{book.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
 
 export default BookstoreSearchPage;
+
