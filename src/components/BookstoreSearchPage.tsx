@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -21,11 +22,26 @@ const BOOKSTORES = [
   },
 ];
 
-const HADERNER_STERN_BOOKS = [
-  {
-    name: "The Metamorphosis - Franz Kafka",
-    image: "/lovable-uploads/35d51fbb-1258-4c2b-8184-cfe5768e1798.png",
-  },
+// Book definitions for each store
+const BOOKS_BY_STORE = [
+  [
+    {
+      name: "The Metamorphosis - Franz Kafka",
+      image: "/lovable-uploads/35d51fbb-1258-4c2b-8184-cfe5768e1798.png",
+    },
+  ],
+  [
+    {
+      name: "Hänsel und Gretel - Brüder Grimm",
+      image: "/lovable-uploads/d23bd7c2-075b-468e-82c4-44d663ac15af.png",
+    },
+  ],
+  [
+    {
+      name: "Perfume: The Story of a Murderer - Patrick Süskind",
+      image: "/lovable-uploads/6360e72d-5042-46a8-ac16-87739fcb205d.png",
+    },
+  ],
 ];
 
 const BookstoreSearchPage: React.FC = () => {
@@ -43,10 +59,10 @@ const BookstoreSearchPage: React.FC = () => {
     !search.includes("80331") &&
     !search.includes("81675");
 
-  // Determine which books to show for a highlighted location (only Haderner Stern for now)
+  // Select books based on the highlighted store (by index)
   let books: Array<{ name: string; image: string }> = [];
-  if (highlightIndex === 0) {
-    books = HADERNER_STERN_BOOKS;
+  if (highlightIndex !== null) {
+    books = BOOKS_BY_STORE[highlightIndex];
   }
 
   return (
