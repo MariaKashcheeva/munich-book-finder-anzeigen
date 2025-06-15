@@ -24,10 +24,17 @@ const BOOKSTORES = [
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("80331 Munich, Marienplatz");
 
-  // Determine highlight index
+  // Determine highlight index and not-found state
   let highlightIndex: number | null = null;
   if (search.includes("81375")) highlightIndex = 0;
   else if (search.includes("80331")) highlightIndex = 1;
+  else if (search.includes("81675")) highlightIndex = 2;
+
+  const isNotFound =
+    search.length > 0 &&
+    !search.includes("81375") &&
+    !search.includes("80331") &&
+    !search.includes("81675");
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen pb-16 bg-gradient-to-b from-white to-gray-50">
@@ -45,6 +52,11 @@ const BookstoreSearchPage: React.FC = () => {
             />
           </div>
         </div>
+        {isNotFound && (
+          <div className="mt-4 px-4 py-2 rounded bg-yellow-50 text-yellow-700 border border-yellow-200 text-center">
+            Your postal code was not found
+          </div>
+        )}
       </section>
 
       {/* Results List */}
