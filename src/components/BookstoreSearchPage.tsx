@@ -3,20 +3,15 @@ import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-type Bookstore = {
-  address: string;
-  label: string;
-  coords: [number, number];
-};
-
-// You can try this Wikimedia image (OSM): If this fails, it's likely CORS or Wikimedia blocking hotlinking
+// Wikimedia map static image (could be blocked by CORS)
 const STATIC_MUNICH_MAP =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/M%C3%BCnchen_-_Karte_-_OpenStreetMap.png/640px-M%C3%BCnchen_-_Karte_-_OpenStreetMap.png";
-// If that fails to load, use a local placeholder instead:
+
+// Reliable placeholder service
 const PLACEHOLDER_MAP =
   "https://placehold.co/640x390?text=Munich+Map+Not+Available";
 
-const BOOKSTORES: Bookstore[] = [
+const BOOKSTORES = [
   {
     address: "81354 Munich, Haderner Stern",
     label: "Haderner Stern",
@@ -34,10 +29,51 @@ const BOOKSTORES: Bookstore[] = [
   },
 ];
 
+const LOCAL_INLINE_MAP = (
+  <svg
+    viewBox="0 0 640 390"
+    className="w-full h-full"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Simple Munich map placeholder"
+  >
+    <rect width="100%" height="100%" fill="#e5e7eb" />
+    <text
+      x="50%"
+      y="45%"
+      alignmentBaseline="middle"
+      textAnchor="middle"
+      fontSize="32"
+      fill="#6b7280"
+      fontFamily="sans-serif"
+    >
+      Munich Map Not Available
+    </text>
+    <circle cx="320" cy="195" r="110" fill="#bbf7d0" opacity="0.6" />
+    <circle cx="340" cy="190" r="8" fill="#22c55e" />
+  </svg>
+);
+
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("80331 Munich, Marienplatz");
   const [imgSrc, setImgSrc] = useState(STATIC_MUNICH_MAP);
+  const [imgStep, setImgStep] = useState(0);
+  // imgStep: 0 - Static, 1 - Placeholder map, 2 - fallback SVG
   const [imgError, setImgError] = useState(false);
+
+  // Handle image error, swapping source through the fallbacks
+  const handleImgError = () => {
+    console.log(`[BookstoreSearchPage] Image failed to load: ${imgSrc}, step: ${imgStep}`);
+    if (imgStep === 0) {
+      // Try placeholder service next
+      setImgSrc(PLACEHOLDER_MAP);
+      setImgStep(1);
+      setImgError(false);
+    } else if (imgStep === 1) {
+      // Fallback to SVG inline
+      setImgError(true);
+    }
+    // if step > 1: do nothing, SVG will show as fallback
+  };
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen pb-16 bg-gradient-to-b from-white to-gray-50">
@@ -64,18 +100,13 @@ const BookstoreSearchPage: React.FC = () => {
             <img
               src={imgSrc}
               alt="Munich map"
-              onError={() => {
-                setImgSrc(PLACEHOLDER_MAP);
-                setImgError(true);
-              }}
-              className="object-cover w-full h-full rounded-lg border-2 border-dashed border-gray-400 shadow"
+              onError={handleImgError}
+              className="object-cover w-full h-full rounded-lg border-2 border-dashed border-gray-400 shadow bg-gray-100"
               draggable={false}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-50 border-2 border-dashed border-gray-400 rounded-lg">
-              <span className="text-gray-400 text-lg">
-                Munich map is not available.
-              </span>
+              {LOCAL_INLINE_MAP}
             </div>
           )}
         </div>
@@ -108,4 +139,3 @@ const BookstoreSearchPage: React.FC = () => {
 };
 
 export default BookstoreSearchPage;
-
