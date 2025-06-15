@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -22,7 +21,7 @@ const BOOKSTORES = [
 ];
 
 const BookstoreSearchPage: React.FC = () => {
-  const [search, setSearch] = useState("80331 Munich, Marienplatz");
+  const [search, setSearch] = useState("81375"); // Changed default value to "81375"
 
   // Determine highlight index and not-found state
   let highlightIndex: number | null = null;
