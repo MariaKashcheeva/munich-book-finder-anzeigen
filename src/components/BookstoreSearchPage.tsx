@@ -40,7 +40,7 @@ const BookstoreSearchPage: React.FC = () => {
               className="text-lg border-none bg-transparent focus:ring-0 p-0"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Enter your address in Munich…"
+              placeholder="Enter your postal code in Munich.."
               aria-label="Search address"
             />
           </div>
