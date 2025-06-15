@@ -12,7 +12,7 @@ const PLACEHOLDER_MAP =
 
 const BOOKSTORES = [
   {
-    address: "81354 Munich, Haderner Stern",
+    address: "81375 Haderner Stern",
     label: "Haderner Stern",
     coords: [11.4768, 48.1218],
   },
