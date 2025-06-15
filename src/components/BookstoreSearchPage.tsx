@@ -45,8 +45,12 @@ const BOOKS_BY_STORE = [
   ],
 ];
 
+// Munich center coordinates
+const MUNICH_CENTER: [number, number] = [11.5755, 48.1371];
+
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("81375");
+  const [mapboxToken, setMapboxToken] = useState("");
 
   // Determine highlight index and not-found state
   let highlightIndex: number | null = null;
@@ -78,8 +82,38 @@ const BookstoreSearchPage: React.FC = () => {
           pointerEvents: "none",
         }}
       >
-        <Map />
-        {/* Optionally a white overlay for better contrast */}
+        {mapboxToken ? (
+          <Map
+            token={mapboxToken}
+            center={MUNICH_CENTER}
+            bookstores={BOOKSTORES}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center w-full h-full">
+            <div className="text-gray-800/80 font-medium text-center bg-white/70 px-6 py-10 rounded-xl shadow border border-gray-200 backdrop-blur">
+              <div className="mb-4 text-base">
+                Please enter your public <span className="font-semibold text-green-700">Mapbox access token</span> below to display the Munich map as background.<br /><br />
+                <span className="text-xs italic font-normal">
+                  (Get your token at <a
+                    href="https://mapbox.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-green-800"
+                  >mapbox.com</a> &rarr; Dashboard &rarr; Tokens)
+                </span>
+              </div>
+              <Input
+                className="w-full text-base"
+                type="text"
+                placeholder="Paste your Mapbox public token here"
+                value={mapboxToken}
+                onChange={e => setMapboxToken(e.target.value)}
+                autoFocus
+              />
+            </div>
+          </div>
+        )}
+        {/* Optional overlay for better contrast */}
         <div className="absolute inset-0 bg-white/60" />
       </div>
 
