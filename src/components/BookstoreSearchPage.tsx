@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -8,7 +9,13 @@ type Bookstore = {
   coords: [number, number];
 };
 
-const MUNICH_CENTER: [number, number] = [11.5662, 48.137];
+// You can try this Wikimedia image (OSM): If this fails, it's likely CORS or Wikimedia blocking hotlinking
+const STATIC_MUNICH_MAP =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/M%C3%BCnchen_-_Karte_-_OpenStreetMap.png/640px-M%C3%BCnchen_-_Karte_-_OpenStreetMap.png";
+// If that fails to load, use a local placeholder instead:
+const PLACEHOLDER_MAP =
+  "https://placehold.co/640x390?text=Munich+Map+Not+Available";
+
 const BOOKSTORES: Bookstore[] = [
   {
     address: "81354 Munich, Haderner Stern",
@@ -27,12 +34,10 @@ const BOOKSTORES: Bookstore[] = [
   },
 ];
 
-const STATIC_MUNICH_MAP =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/M%C3%BCnchen_-_Karte_-_OpenStreetMap.png/640px-M%C3%BCnchen_-_Karte_-_OpenStreetMap.png";
-
-// eBay Kleinanzeigen style colors: green, white, soft grey/blue
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("80331 Munich, Marienplatz");
+  const [imgSrc, setImgSrc] = useState(STATIC_MUNICH_MAP);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen pb-16 bg-gradient-to-b from-white to-gray-50">
@@ -54,14 +59,25 @@ const BookstoreSearchPage: React.FC = () => {
 
       {/* Static Map Area */}
       <section className="w-full max-w-5xl h-[390px] md:h-[470px] relative mt-8 px-2 mb-2">
-        <div className="relative w-full h-[390px] md:h-[470px]">
-          <img
-            src={STATIC_MUNICH_MAP}
-            alt="Munich map"
-            className="object-cover w-full h-full rounded-lg border border-gray-200 shadow"
-            draggable={false}
-          />
-          {/* Optionally, could add pins as absolute-positioned elements here */}
+        <div className="relative w-full h-[390px] md:h-[470px] flex items-center justify-center">
+          {!imgError ? (
+            <img
+              src={imgSrc}
+              alt="Munich map"
+              onError={() => {
+                setImgSrc(PLACEHOLDER_MAP);
+                setImgError(true);
+              }}
+              className="object-cover w-full h-full rounded-lg border-2 border-dashed border-gray-400 shadow"
+              draggable={false}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-50 border-2 border-dashed border-gray-400 rounded-lg">
+              <span className="text-gray-400 text-lg">
+                Munich map is not available.
+              </span>
+            </div>
+          )}
         </div>
       </section>
 
@@ -92,3 +108,4 @@ const BookstoreSearchPage: React.FC = () => {
 };
 
 export default BookstoreSearchPage;
+
