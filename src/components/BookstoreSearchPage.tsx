@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -24,8 +23,8 @@ const BOOKSTORES = [
 
 const HADERNER_STERN_BOOKS = [
   {
-    name: "Hänsel und Gretel - Brüder Grimm",
-    image: "/lovable-uploads/f5afcfe5-0f49-471a-808a-bd96e2adf312.png",
+    name: "The Metamorphosis - Franz Kafka",
+    image: "/lovable-uploads/35d51fbb-1258-4c2b-8184-cfe5768e1798.png",
   },
 ];
 
@@ -123,4 +122,3 @@ const BookstoreSearchPage: React.FC = () => {
 };
 
 export default BookstoreSearchPage;
-
