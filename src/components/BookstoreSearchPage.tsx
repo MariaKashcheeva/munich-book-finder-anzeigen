@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import Map from "@/components/Map";
+
+// Update here: reference for black & white Munich map image
+const MUNICH_BW_MAP = "/lovable-uploads/munich-bw-map.png";
 
 // Store data
 const BOOKSTORES: Array<{
@@ -54,7 +56,8 @@ const MUNICH_CENTER: [number, number] = [11.5755, 48.1371];
 
 const BookstoreSearchPage: React.FC = () => {
   const [search, setSearch] = useState("81375");
-  const [mapboxToken, setMapboxToken] = useState("");
+  // Remove mapboxToken logic as not needed
+  // const [mapboxToken, setMapboxToken] = useState("");
 
   // Determine highlight index and not-found state
   let highlightIndex: number | null = null;
@@ -76,49 +79,18 @@ const BookstoreSearchPage: React.FC = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-x-hidden">
-      {/* MAP BACKGROUND */}
+      {/* STATIC BW MUNICH MAP BACKGROUND */}
       <div
-        className="fixed inset-0 -z-10"
+        className="fixed inset-0 -z-10 bg-cover bg-center filter grayscale"
         aria-hidden
         style={{
-          filter: "grayscale(1) contrast(1.2)",
-          opacity: 0.33,
+          backgroundImage: `url(${MUNICH_BW_MAP})`,
+          opacity: 0.35,
           pointerEvents: "none",
         }}
       >
-        {mapboxToken ? (
-          <Map
-            token={mapboxToken}
-            center={MUNICH_CENTER}
-            bookstores={BOOKSTORES}
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center w-full h-full">
-            <div className="text-gray-800/80 font-medium text-center bg-white/70 px-6 py-10 rounded-xl shadow border border-gray-200 backdrop-blur">
-              <div className="mb-4 text-base">
-                Please enter your public <span className="font-semibold text-green-700">Mapbox access token</span> below to display the Munich map as background.<br /><br />
-                <span className="text-xs italic font-normal">
-                  (Get your token at <a
-                    href="https://mapbox.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-green-800"
-                  >mapbox.com</a> &rarr; Dashboard &rarr; Tokens)
-                </span>
-              </div>
-              <Input
-                className="w-full text-base"
-                type="text"
-                placeholder="Paste your Mapbox public token here"
-                value={mapboxToken}
-                onChange={e => setMapboxToken(e.target.value)}
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
         {/* Optional overlay for better contrast */}
-        <div className="absolute inset-0 bg-white/60" />
+        <div className="absolute inset-0 bg-white/70" />
       </div>
 
       {/* PAGE FOREGROUND CONTENT */}
@@ -195,3 +167,4 @@ const BookstoreSearchPage: React.FC = () => {
 };
 
 export default BookstoreSearchPage;
+
