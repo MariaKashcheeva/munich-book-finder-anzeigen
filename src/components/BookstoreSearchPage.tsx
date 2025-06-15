@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -93,27 +92,8 @@ const BookstoreSearchPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Static Map Area */}
-      <section className="w-full max-w-5xl h-[390px] md:h-[470px] relative mt-8 px-2 mb-2">
-        <div className="relative w-full h-[390px] md:h-[470px] flex items-center justify-center">
-          {!imgError ? (
-            <img
-              src={imgSrc}
-              alt="Munich map"
-              onError={handleImgError}
-              className="object-cover w-full h-full rounded-lg border-2 border-dashed border-gray-400 shadow bg-gray-100"
-              draggable={false}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-50 border-2 border-dashed border-gray-400 rounded-lg">
-              {LOCAL_INLINE_MAP}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* Results List */}
-      <section className="w-full max-w-3xl mt-4 px-2">
+      <section className="w-full max-w-3xl mt-8 px-2">
         <div className="rounded-lg shadow border border-gray-200 bg-white">
           <div className="grid grid-cols-1 gap-1">
             {BOOKSTORES.map((store, idx) => (
