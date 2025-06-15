@@ -7,9 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-// Set your repo name here for basename:
-const REPO_BASENAME = "/munich-book-finder-anzeigen/";
-
+// No custom basename for Lovable deployment!
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -17,7 +15,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename={REPO_BASENAME}>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

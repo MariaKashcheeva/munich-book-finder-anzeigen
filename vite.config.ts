@@ -20,5 +20,5 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/munich-book-finder-anzeigen/", // Set this to your repository name for GitHub Pages
+  // No `base` property for Lovable deployment!
 }));
