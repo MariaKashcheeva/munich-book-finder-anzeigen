@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -54,14 +53,14 @@ const BookstoreSearchPage: React.FC = () => {
       </section>
 
       {/* Static Map Area */}
-      <section className="w-full max-w-5xl h-[390px] md:h-[470px] relative mt-8 px-2 mb-2 flex items-center justify-center">
-        <div className="relative w-full h-full">
+      <section className="w-full max-w-5xl h-[390px] md:h-[470px] relative mt-8 px-2 mb-2">
+        <div className="relative w-full h-[390px] md:h-[470px]">
           <img
             src={STATIC_MUNICH_MAP}
             alt="Munich map"
             className="object-cover w-full h-full rounded-lg border border-gray-200 shadow"
             draggable={false}
-            />
+          />
           {/* Optionally, could add pins as absolute-positioned elements here */}
         </div>
       </section>
@@ -93,4 +92,3 @@ const BookstoreSearchPage: React.FC = () => {
 };
 
 export default BookstoreSearchPage;
-
